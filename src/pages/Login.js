@@ -1,14 +1,16 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {login} from "../app/authSlice";
 
 export function Login() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [creds, setCreds] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   function handleLogin() {
     setIsLoading(true);
@@ -17,9 +19,9 @@ export function Login() {
     setTimeout(() => {
       if (creds.username === 'admin' && creds.password === '123') {
         dispatch(login());
-        navigate('/stats');
+        navigate(from, {replace: true})
       }
-    }, 5000);
+    }, 2000);
 
   }
 
