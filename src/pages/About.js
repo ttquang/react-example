@@ -1,10 +1,4 @@
-import {useDispatch} from "react-redux";
-import {increment} from "../app/counterSlice";
-
 export function About() {
-
-  const dispatch = useDispatch();
-  dispatch(increment());
 
   return (
     <div style={{padding: 20}}>

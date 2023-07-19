@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {login} from "../app/authSlice";
+import axios from "axios";
 
 export function Login() {
   const dispatch = useDispatch();
@@ -12,16 +13,16 @@ export function Login() {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
-  function handleLogin() {
+  async function handleLogin() {
     setIsLoading(true);
-    // For demonstration purposes only. Never use these checks in production!
-    // Use a proper authentication implementation
-    setTimeout(() => {
-      if (creds.username === 'admin' && creds.password === '123') {
-        dispatch(login());
-        navigate(from, {replace: true})
-      }
-    }, 2000);
+
+    try {
+      const response = await axios.get("http://localhost:8080/login");
+      dispatch(login(response?.data))
+      navigate(from, {replace: true})
+    } catch (err) {
+
+    }
 
   }
 

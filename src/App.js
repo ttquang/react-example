@@ -11,29 +11,33 @@ import {Stats} from "./pages/Stats";
 import {NoMatch} from "./pages/NoMatch";
 import {RequireAuth} from "./pages/RequireAuth";
 import {Unauthorized} from "./pages/Unauthorized";
+import {NavBar} from "./pages/NavBar";
 
 const ROLES = {
-  'User':2001
+  'User': 'USER'
 }
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={(<Layout/>)}>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/posts" element={<Posts/>}>
-          <Route index element={<PostLists/>}/>
-          <Route path=":slug" element={<Post/>}/>
+    <>
+      <NavBar/>
+      <Routes>
+        <Route path="/" element={(<Layout/>)}>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/posts" element={<Posts/>}>
+            <Route index element={<PostLists/>}/>
+            <Route path=":slug" element={<Post/>}/>
+          </Route>
+          <Route path="/about" element={<About/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
+            <Route path="/stats" element={<Stats/>}/>
+          </Route>
+          <Route path="/unauthorized" element={<Unauthorized/>}/>
+          <Route path="*" element={<NoMatch/>}/>
         </Route>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
-          <Route path="/stats" element={<Stats/>}/>
-        </Route>
-        <Route path="/unauthorized" element={<Unauthorized/>}/>
-        <Route path="*" element={<NoMatch/>}/>
-      </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }
 
