@@ -11,7 +11,9 @@ import {Stats} from "./pages/Stats";
 import {NoMatch} from "./pages/NoMatch";
 import {RequireAuth} from "./pages/RequireAuth";
 import {Unauthorized} from "./pages/Unauthorized";
-import {NavBar} from "./pages/NavBar";
+
+import "./nav-bar.sass";
+import {Logout} from "./pages/Logout";
 
 const ROLES = {
   'User': 'USER'
@@ -20,7 +22,6 @@ const ROLES = {
 function App() {
   return (
     <>
-      <NavBar/>
       <Routes>
         <Route path="/" element={(<Layout/>)}>
           <Route path="/" element={<Home/>}/>
@@ -30,6 +31,7 @@ function App() {
           </Route>
           <Route path="/about" element={<About/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/logout" element={<Logout/>}/>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
             <Route path="/stats" element={<Stats/>}/>
           </Route>

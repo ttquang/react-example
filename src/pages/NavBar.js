@@ -28,10 +28,12 @@ export function NavBar() {
       {isLogin && <Link to="/stats" style={{padding: 5}}>
         Stats
       </Link>}
-      {!isLogin && <Link to="/login" style={{padding: 5}}>
+      {!isLogin && <Link to="/login" style={{padding: 5, float: "right"}}>
         Login
       </Link>}
-      {isLogin && <span onClick={logOut} style={{padding: 5, cursor: 'pointer'}}> Logout </span>}
+      {isLogin && <Link to="/logout" style={{padding: 5, float: "right"}}>
+        Logout
+      </Link>}
     </nav>
   );
 }
