@@ -1,37 +1,34 @@
-import {Link, useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
-import {logout} from "../app/authSlice";
+import {Link} from 'react-router-dom';
 import {useAuth} from "../hooks/useAuth";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export function NavBar() {
-  const {isLogin} = useAuth();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const {isLogin, role} = useAuth();
 
-  function logOut() {
-    dispatch(logout());
-    navigate("/");
-  }
+  const [menus, setMenus] = useState([]);
+
+  useEffect(() => {
+    if (role) {
+      axios.get("http://localhost:8080/api/roles/" + role + "/menu")
+        .then((response) => {
+          setMenus(response.data);
+        });
+    } else {
+      setMenus([]);
+    }
+  }, [role]);
 
   return (
-    <nav style={{margin: 10}}>
-      <Link to="/" style={{padding: 5}}>
-        Home
-      </Link>
-      <Link to="/posts" style={{padding: 5}}>
-        Posts
-      </Link>
-      <Link to="/about" style={{padding: 5}}>
-        About
-      </Link>
-      <span> | </span>
-      {isLogin && <Link to="/stats" style={{padding: 5}}>
-        Stats
-      </Link>}
-      {!isLogin && <Link to="/login" style={{padding: 5, float: "right"}}>
+    <nav>
+      {menus.map((menu, index) => (
+        <Link key={index} to={menu.url}>{menu.label}</Link>
+      ))}
+
+      {!isLogin && <Link to="/login" style={{float: "right"}}>
         Login
       </Link>}
-      {isLogin && <Link to="/logout" style={{padding: 5, float: "right"}}>
+      {isLogin && <Link to="/logout" style={{float: "right"}}>
         Logout
       </Link>}
     </nav>
